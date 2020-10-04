@@ -1,7 +1,6 @@
-
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AgmCoreModule } from '@agm/core';
@@ -30,6 +29,7 @@ import { ApiService } from './api.service';
     DemoMaterialModule,
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
@@ -42,6 +42,6 @@ import { ApiService } from './api.service';
   ],
   providers: [CookieService, ApiService],
   bootstrap: [AppComponent],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

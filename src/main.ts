@@ -7,6 +7,7 @@ import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
+  // navigator.serviceWorker.register('/ngsw-worker.js');
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

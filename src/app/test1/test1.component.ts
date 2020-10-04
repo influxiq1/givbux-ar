@@ -41,7 +41,7 @@ export class Test1Component implements OnInit {
         console.log('+++++++++');
         this.mapsAPILoader.load().then(() => {
           this.setCurrentLocation();
-          this.geoCoder = new google.maps.Geocoder;
+          // this.geoCoder = new google.maps.Geocoder;
         });
         // boxEl.setAttribute('nft','');
         // this.sound.play();
@@ -80,25 +80,25 @@ export class Test1Component implements OnInit {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      this.address = results[0].formatted_address;
-      if (status === 'OK') {
-        if (results[0]) {
-          this.address = results[0].formatted_address;
-          this.zoom = 12;
-          this.address = results[0].formatted_address;
-          console.log(this.address);
+    // this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
+    //   this.address = results[0].formatted_address;
+    //   if (status === 'OK') {
+    //     if (results[0]) {
+    //       this.address = results[0].formatted_address;
+    //       this.zoom = 12;
+    //       this.address = results[0].formatted_address;
+    //       console.log(this.address);
           this.apiService.ResolveViaPost({latdata:latitude, londata:longitude, trackablename:this.parameterid, webaddress:this.address},'addtrackforweb').subscribe((res:any)=>{
             console.log(res,'+++++++')
           })
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
+    //     } else {
+    //       window.alert('No results found');
+    //     }
+    //   } else {
+    //     window.alert('Geocoder failed due to: ' + status);
+    //   }
 
-    });
+    // });
   }
   changed(event: any) {
     console.log('+++++++')

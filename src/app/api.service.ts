@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
-import { ActivatedRouteSnapshot } from '@angular/router';
-
+import {ElementRef, EventEmitter, Injectable, Input, ViewChild} from '@angular/core';
+import {switchMap, map, takeWhile, catchError} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+// for setting observables to get serverurl and endpointurl from app
+import {Observable, Subject, Subscription, throwError} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
+import {environment} from '../environments/environment';
+import {Router, ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public baseUrl = "http://132.148.90.242:3031/";
   public jwtToken = '';
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService, public router: Router, public activatedRoute: ActivatedRoute, private _snackBar: MatSnackBar) {
   }
 
   /* read site setting data */
@@ -19,18 +22,19 @@ export class ApiService {
   }
 
   /* call api via post method */
+
+
+
+
   httpViaPost(endpoint, jsonData): Observable<any> {
 
     /* set common header */
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        // 'Access-Control-Allow-Methods': 'POST',
-        // 'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       })
     };
-    return this.http.post(this.baseUrl + endpoint, jsonData, httpOptions);
+    return this.http.post(this.baseUrl + endpoint, JSON.stringify(jsonData), httpOptions);
   }
 
 
@@ -38,13 +42,13 @@ export class ApiService {
   httpReportDownload(endpoint, jsonData): Observable<any> {
 
     /* set common header */
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://127.0.0.1:4200',
-        'responseType': 'text'
-      })
-    };
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*',
+    //     'responseType': 'text'
+    //   })
+    // };
     return this.http.get(endpoint, jsonData);
     // var result = this.http.get(endpoint).pipe(map(res => res));
     // return result;
@@ -64,7 +68,8 @@ export class ApiService {
     /* set common header */
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       })
     };
     return this.http.get(this.baseUrl + endpoint, jsonData);
@@ -75,26 +80,14 @@ export class ApiService {
     /* set common header */
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': '*'
       })
     };
     // console.log(this.baseUrl + endpoint,requestdata)
     return this.http.post(this.baseUrl + endpoint, JSON.stringify(requestdata), httpOptions).pipe(map(res => res));
   }
 
-
-  checkingDuplicateEmail(requestdata: any): Observable<any> {
-    let data: any = { "email": requestdata, "source": "users" };
-
-    /* set common header */
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return this.http.post(this.baseUrl + 'duplicate-email-checking', JSON.stringify(data), httpOptions).pipe(map(res => res));
-  }
 
   /* call api via get method */
   httpViaGetExt(url, jsonData): Observable<any> {

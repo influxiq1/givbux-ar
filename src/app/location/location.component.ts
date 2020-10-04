@@ -28,7 +28,7 @@ export class LocationComponent implements OnInit {
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder;
+      // this.geoCoder = new google.maps.Geocoder;
 
       this.s = '00088888881111------000'
     //   let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
@@ -73,6 +73,8 @@ export class LocationComponent implements OnInit {
   // }
 
   getAddress(latitude, longitude) {
+    console.log(latitude, longitude);
+    return;
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       console.log(results,'===');
       console.log(results[0].formatted_address);
